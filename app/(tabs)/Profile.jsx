@@ -1,7 +1,7 @@
 import React from "react";
 import { SafeAreaView, StyleSheet, Text, View } from "react-native";
 
-const Setting = () => {
+const Profile = () => {
   return (
     <SafeAreaView style={styles.container}>
       <View style={styles.centerContent}>
@@ -11,7 +11,7 @@ const Setting = () => {
   );
 };
 
-export default Setting;
+export default Profile;
 
 const styles = StyleSheet.create({
   container: {

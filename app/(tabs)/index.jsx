@@ -1,4 +1,5 @@
-import React, { useEffect, useRef } from "react";
+import { useFocusEffect } from "@react-navigation/native";
+import React, { useRef } from "react";
 import {
   ActivityIndicator,
   Animated,
@@ -16,18 +17,25 @@ const index = () => {
   const [data, loading, error] = useFetch();
   const fadeAnim = useRef(new Animated.Value(0)).current;
 
-  useEffect(() => {
-    if (!loading && data) {
-      Animated.timing(fadeAnim, {
-        toValue: 1,
-        duration: 1000,
-        useNativeDriver: true,
-      }).start();
-    }
-  }, [loading, data]);
+  // Reset animation when screen comes into focus
+  useFocusEffect(
+    React.useCallback(() => {
+      fadeAnim.setValue(0);
+      if (!loading && data) {
+        Animated.timing(fadeAnim, {
+          toValue: 1,
+          duration: 500,
+          useNativeDriver: true,
+        }).start();
+      }
+      return () => {
+        fadeAnim.setValue(0);
+      };
+    }, [loading, data])
+  );
 
   const renderItem = ({ item, index }) => (
-    <ProductCard item={item} index={index} fadeAnim={fadeAnim} />
+    <ProductCard item={item} index={index} id={item.id} fadeAnim={fadeAnim} />
   );
 
   if (error) {
@@ -58,6 +66,7 @@ const index = () => {
           showsVerticalScrollIndicator={false}
           numColumns={2}
           columnWrapperStyle={styles.row}
+          removeClippedSubviews={false}
         />
       )}
     </SafeAreaView>

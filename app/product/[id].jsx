@@ -10,6 +10,8 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import { db } from "../../Firebase/Config";
+import { collection, addDoc } from "firebase/firestore";
 
 const ProductDetail = () => {
   const { id } = useLocalSearchParams();
@@ -49,6 +51,18 @@ const ProductDetail = () => {
     );
   }
 
+  const handleAddToCart = async (product) => {
+    console.log("Add to Cart");
+    try {
+      const docRef = await addDoc(collection(db, "Carts"), {
+        Cartproduct: product,
+      });
+      console.log("Document written with ID: ", docRef.id);
+    } catch (e) {
+      console.error("Error adding document: ", e);
+    }
+  };
+
   return (
     <ScrollView style={styles.container}>
       <TouchableOpacity style={styles.backButton} onPress={() => router.back()}>
@@ -87,7 +101,10 @@ const ProductDetail = () => {
           <Text style={styles.description}>{product.description}</Text>
         </View>
 
-        <TouchableOpacity style={styles.addToCartButton}>
+        <TouchableOpacity
+          style={styles.addToCartButton}
+          onPress={() => handleAddToCart(product)}
+        >
           <Text style={styles.addToCartText}>Add to Cart</Text>
         </TouchableOpacity>
       </View>
