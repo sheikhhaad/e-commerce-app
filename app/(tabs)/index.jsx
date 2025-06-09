@@ -1,5 +1,5 @@
 import { useFocusEffect } from "@react-navigation/native";
-import React, { useRef } from "react";
+import React, { use, useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
   Animated,
@@ -18,6 +18,11 @@ import img3 from "../../assets/images/product3.avif";
 import ProductCard from "../../components/ProductCard";
 import SearchBar from "../../components/SearchBar";
 import useFetch from "../Hooks/useFetch";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "../../Firebase/Config";
+import { router } from "expo-router";
+
+
 
 const { width } = Dimensions.get("window");
 
@@ -26,6 +31,23 @@ const carouselData = [{ img: img1 }, { img: img2 }, { img: img3 }];
 const index = () => {
   const [data, loading, error] = useFetch();
   const fadeAnim = useRef(new Animated.Value(0)).current;
+  const [user, setUser] = useState(null);
+
+  useEffect(()=> {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setUser(user);
+        const uid = user.uid;
+        // ...
+      } else {
+        setUser(null);
+        router.push("/login");
+      }
+    });
+    
+  })
+
+
 
   // Reset animation when screen comes into focus
   useFocusEffect(

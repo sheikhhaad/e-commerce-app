@@ -1,6 +1,6 @@
-import { FontAwesome, Ionicons, MaterialIcons } from "@expo/vector-icons";
+import { Ionicons, MaterialIcons } from "@expo/vector-icons";
 import { router } from "expo-router";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dimensions,
   SafeAreaView,
@@ -11,12 +11,36 @@ import {
   View
 } from "react-native";
 // const userImg = require("../../assets/images/user.png"); // Use your user image path
+import { collection, getDocs, query, where } from "firebase/firestore";
+import { auth, db } from "../../Firebase/Config";
 
 const { width } = Dimensions.get('window');
 
 const Profile = () => {
   const [darkMode, setDarkMode] = useState(false);
   const [touchId, setTouchId] = useState(false);
+  const [userData, setUserData] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      try {
+        const q = query(
+          collection(db, "users"),
+          where("email", "==", auth.currentUser.email)
+        );
+        const querySnapshot = await getDocs(q);
+        if (!querySnapshot.empty) {
+          setUserData(querySnapshot.docs[0].data());
+        }
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchUser();
+  }, []);
 
   return (
     <SafeAreaView style={styles.container}>
@@ -24,11 +48,19 @@ const Profile = () => {
       <View style={styles.userCard}>
         {/* <Image source={userImg} style={styles.userAvatar} /> */}
         <View style={styles.avatarFallback}>
-          <Text style={styles.avatarInitials}>JD</Text>
+          <Text style={styles.avatarInitials}>
+            {userData?.name ? userData.name[0].toUpperCase() : "?"}
+          </Text>
         </View>
         <View style={styles.userInfo}>
-          <Text style={styles.userName}>John Doe</Text>
-          <Text style={styles.userEmail}>john.doe@mail.com</Text>
+          {loading ? (
+            <Text>Loading...</Text>
+          ) : (
+            <>
+              <Text style={styles.userName}>{userData?.name.toUpperCase()}</Text>
+              <Text style={styles.userEmail}>{userData?.email}</Text>
+            </>
+          )}
         </View>
       </View>
 
@@ -56,8 +88,6 @@ const Profile = () => {
           style={styles.switch}
         />
       </View>
-
-    
     </SafeAreaView>
   );
 };
