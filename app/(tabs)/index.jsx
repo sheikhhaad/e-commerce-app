@@ -22,8 +22,6 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../Firebase/Config";
 import { router } from "expo-router";
 
-
-
 const { width } = Dimensions.get("window");
 
 const carouselData = [{ img: img1 }, { img: img2 }, { img: img3 }];
@@ -33,7 +31,7 @@ const index = () => {
   const fadeAnim = useRef(new Animated.Value(0)).current;
   const [user, setUser] = useState(null);
 
-  useEffect(()=> {
+  useEffect(() => {
     onAuthStateChanged(auth, (user) => {
       if (user) {
         setUser(user);
@@ -44,10 +42,7 @@ const index = () => {
         router.push("/login");
       }
     });
-    
-  })
-
-
+  });
 
   // Reset animation when screen comes into focus
   useFocusEffect(

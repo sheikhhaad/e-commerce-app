@@ -8,13 +8,13 @@ import {
   Switch,
   Text,
   TouchableOpacity,
-  View
+  View,
 } from "react-native";
 // const userImg = require("../../assets/images/user.png"); // Use your user image path
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { auth, db } from "../../Firebase/Config";
 
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get("window");
 
 const Profile = () => {
   const [darkMode, setDarkMode] = useState(false);
@@ -57,7 +57,9 @@ const Profile = () => {
             <Text>Loading...</Text>
           ) : (
             <>
-              <Text style={styles.userName}>{userData?.name.toUpperCase()}</Text>
+              <Text style={styles.userName}>
+                {userData?.name.toUpperCase()}
+              </Text>
               <Text style={styles.userEmail}>{userData?.email}</Text>
             </>
           )}
@@ -66,15 +68,31 @@ const Profile = () => {
 
       {/* Profile Section */}
       <Text style={styles.sectionHeader}>Profile</Text>
-      <TouchableOpacity style={styles.itemRow} activeOpacity={0.7} onPress={()=> router.push('/personalinfo')}>
+      <TouchableOpacity
+        style={styles.itemRow}
+        activeOpacity={0.7}
+        onPress={() => router.push("/personalinfo")}
+      >
         <Ionicons name="person" size={22} style={styles.icon} />
         <Text style={styles.itemText}>Personal Data</Text>
-        <MaterialIcons name="keyboard-arrow-right" size={24} style={styles.arrow} />
+        <MaterialIcons
+          name="keyboard-arrow-right"
+          size={24}
+          style={styles.arrow}
+        />
       </TouchableOpacity>
-      <TouchableOpacity style={styles.itemRow} activeOpacity={0.7} onPress={()=> router.push('/contactinfo')}>
+      <TouchableOpacity
+        style={styles.itemRow}
+        activeOpacity={0.7}
+        onPress={() => router.push("/contactinfo")}
+      >
         <Ionicons name="call" size={22} style={styles.icon} />
         <Text style={styles.itemText}>Contact Information</Text>
-        <MaterialIcons name="keyboard-arrow-right" size={24} style={styles.arrow} />
+        <MaterialIcons
+          name="keyboard-arrow-right"
+          size={24}
+          style={styles.arrow}
+        />
       </TouchableOpacity>
 
       {/* Preferences Section */}
@@ -102,18 +120,18 @@ const styles = StyleSheet.create({
     paddingTop: 20,
   },
   userCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#fff',
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#fff",
     borderRadius: 16,
     padding: 18,
     marginBottom: 20,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOpacity: 0.06,
     shadowRadius: 8,
     shadowOffset: { width: 0, height: 2 },
     elevation: 2,
-    width: '100%',
+    width: "100%",
   },
   // userAvatar: {
   //   width: 54,
@@ -125,15 +143,15 @@ const styles = StyleSheet.create({
     width: 54,
     height: 54,
     borderRadius: 27,
-    backgroundColor: '#e0e7ef',
-    justifyContent: 'center',
-    alignItems: 'center',
+    backgroundColor: "#e0e7ef",
+    justifyContent: "center",
+    alignItems: "center",
     marginRight: 16,
   },
   avatarInitials: {
     fontSize: 22,
-    fontWeight: 'bold',
-    color: '#4a4a4a',
+    fontWeight: "bold",
+    color: "#4a4a4a",
   },
   userInfo: {
     flex: 1,
@@ -141,44 +159,44 @@ const styles = StyleSheet.create({
   },
   userName: {
     fontSize: 17,
-    fontWeight: 'bold',
-    color: '#222',
+    fontWeight: "bold",
+    color: "#222",
   },
   userEmail: {
     fontSize: 14,
-    color: '#888',
+    color: "#888",
     marginTop: 2,
   },
   sectionHeader: {
     fontSize: 14,
-    color: '#888',
+    color: "#888",
     marginTop: 18,
     marginBottom: 8,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     paddingLeft: 2,
   },
   itemRow: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     paddingVertical: 13,
     borderBottomWidth: 1,
-    borderBottomColor: '#f0f0f0',
-    backgroundColor: '#fff',
+    borderBottomColor: "#f0f0f0",
+    backgroundColor: "#fff",
     borderRadius: 10,
     marginBottom: 4,
     paddingHorizontal: 8,
   },
   icon: {
     width: 30,
-    color: '#222',
+    color: "#222",
   },
   itemText: {
     flex: 1,
     fontSize: 16,
-    color: '#222',
+    color: "#222",
   },
   arrow: {
-    color: '#bbb',
+    color: "#bbb",
   },
   switch: {
     marginRight: 0,

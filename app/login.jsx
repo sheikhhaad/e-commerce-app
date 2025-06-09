@@ -36,8 +36,6 @@ const Login = () => {
         const errorCode = error.code;
         const errorMessage = error.message;
       });
-
-    alert("Login successful!");
   };
 
   return (
