@@ -3,15 +3,25 @@ import React, { useRef } from "react";
 import {
   ActivityIndicator,
   Animated,
+  Dimensions,
   FlatList,
+  Image,
   SafeAreaView,
   StyleSheet,
   Text,
   View,
 } from "react-native";
+import Carousel from "react-native-reanimated-carousel";
+import img1 from "../../assets/images/product1.jpg";
+import img2 from "../../assets/images/product2.webp";
+import img3 from "../../assets/images/product3.avif";
 import ProductCard from "../../components/ProductCard";
 import SearchBar from "../../components/SearchBar";
 import useFetch from "../Hooks/useFetch";
+
+const { width } = Dimensions.get("window");
+
+const carouselData = [{ img: img1 }, { img: img2 }, { img: img3 }];
 
 const index = () => {
   const [data, loading, error] = useFetch();
@@ -50,8 +60,6 @@ const index = () => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <SearchBar />
-
       {loading ? (
         <View style={styles.loadingContainer}>
           <ActivityIndicator size="large" color="#0000ff" />
@@ -67,6 +75,39 @@ const index = () => {
           numColumns={2}
           columnWrapperStyle={styles.row}
           removeClippedSubviews={false}
+          ListHeaderComponent={
+            <>
+              <SearchBar />
+              <View style={styles.carouselContainer}>
+                <Carousel
+                  width={width - 20}
+                  height={220}
+                  autoPlay
+                  data={carouselData}
+                  scrollAnimationDuration={1000}
+                  renderItem={({ item }) => (
+                    <View
+                      style={[
+                        styles.carouselItem,
+                        {
+                          width: width * 0.85,
+                          height: 200,
+                          alignSelf: "center",
+                        },
+                      ]}
+                    >
+                      <Image
+                        source={item.img}
+                        style={{ width: "100%", height: "100%" }}
+                        resizeMode="cover"
+                      />
+                    </View>
+                  )}
+                  style={{ alignSelf: "center" }}
+                />
+              </View>
+            </>
+          }
         />
       )}
     </SafeAreaView>
@@ -79,6 +120,37 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
+  },
+  carouselContainer: {
+    marginTop: 10,
+    marginBottom: 16,
+  },
+  carouselItem: {
+    borderRadius: 18,
+    overflow: "hidden",
+    justifyContent: "center",
+    alignItems: "center",
+    marginVertical: 12,
+    shadowColor: "#000",
+    shadowOpacity: 0.08,
+    shadowRadius: 8,
+    shadowOffset: { width: 0, height: 2 },
+    elevation: 2,
+  },
+  carouselImage: {
+    width: "90%",
+    height: "90%",
+  },
+  header: {
+    padding: 15,
+    backgroundColor: "#f8f8f8",
+    borderBottomWidth: 1,
+    borderBottomColor: "#e0e0e0",
+  },
+  headerTitle: {
+    fontSize: 24,
+    fontWeight: "bold",
+    color: "#333",
   },
   centerContainer: {
     flex: 1,

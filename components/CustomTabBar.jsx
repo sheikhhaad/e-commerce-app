@@ -7,7 +7,7 @@ const icons = [
   { name: "home", route: "index" },
   { name: "cart", route: "Cart" },
   { name: "search", route: "Search" },
-  { name: "person", route: "Setting" },
+  { name: "settings", route: "Setting" },
 ];
 
 export default function CustomTabBar({ state, descriptors, navigation }) {
